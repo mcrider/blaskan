@@ -50,6 +50,23 @@
 			<div class="content">
 				<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'blaskan' ) ); ?>
 				<?php wp_link_pages( array( 'before' => '<nav class="page-link" role="navigation">' . __( 'Pages:', 'blaskan' ), 'after' => '</nav>' ) ); ?>
+
+				<?php 
+					$authorString = get_post_meta(get_the_ID(), 'authorString', true); 
+					$datePublished = get_post_meta(get_the_ID(), 'datePublished', true); 
+					$pdfUrl = get_post_meta(get_the_id(), 'pdfUrl', true);
+					$htmlUrl = get_post_meta(get_the_id(), 'htmlUrl', true);
+				?>
+				<?php if (!empty($authorString)) { ?><span class="authors">Author(s): <?php echo $authorString; ?></span><br /><?php } ?>
+				<?php if (!empty($datePublished)) { ?><span class="datePublished">Date published: <?php echo $datePublished; ?><br /></span><?php } ?>
+				<?php if (!empty($pdfUrl) && !is_single()) { ?><span class="datePublished"><a href='<?php echo $pdfUrl; ?>'>PDF</a></span><?php } ?>
+				<?php if (!empty($htmlUrl)) { ?><span class="datePublished"><a href='<?php echo $htmlUrl; ?>'>HTML</a></span><?php } ?>
+
+
+				<?php if (is_single() && !empty($pdfUrl)) { ?>
+					<br />
+					<iframe src="http://docs.google.com/gview?url=<?php echo $pdfUrl; ?>&embedded=true" style="width:718px; height:700px;" frameborder="0"></iframe>
+				<?php } ?>
 	
 				<?php if ( !is_single() && !get_the_title() ) : ?>
 					<p>
